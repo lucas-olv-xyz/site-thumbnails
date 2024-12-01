@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thumbnail Organizer</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Organizador de Thumbnails</h1>
+      <input type="text" id="search" placeholder="Buscar por tags..." />
+      <form id="upload-form">
+        <input type="file" id="thumbnail-upload" accept="image/*" />
+        <input
+          type="text"
+          id="thumbnail-tags"
+          placeholder="Adicione tags separadas por vírgulas"
+        />
+        <button type="submit">Upload</button>
+      </form>
+    </header>
+
+    <main id="thumbnail-container">
+      <!-- As thumbnails serão inseridas aqui via JavaScript -->
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
