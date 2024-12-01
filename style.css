@@ -1,3 +1,4 @@
+/* Estilo geral */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -6,13 +7,40 @@ body {
   background-color: #f4f4f4;
 }
 
+/* Página de Login */
+#login-page {
+  text-align: center;
+  margin-top: 50px;
+}
+
+#login-page input {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#login-page button {
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#login-page button:hover {
+  background-color: #555;
+}
+
+/* Cabeçalho */
 header {
   background-color: #333;
   color: white;
   padding: 20px;
 }
 
-#search {
+header input[type="text"] {
   width: 80%;
   padding: 10px;
   margin-top: 10px;
@@ -20,30 +48,6 @@ header {
   border-radius: 5px;
 }
 
-main {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  margin: 20px;
-}
-
-.thumbnail {
-  width: 200px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  overflow: hidden;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.thumbnail img {
-  width: 100%;
-}
-
-.thumbnail p {
-  margin: 5px;
-  font-size: 14px;
-}
 #upload-form {
   margin-top: 20px;
 }
@@ -66,5 +70,64 @@ main {
 }
 
 #upload-form button:hover {
+  background-color: #555;
+}
+
+/* Categorias */
+#categories {
+  margin: 20px;
+  text-align: center;
+}
+
+#categories button {
+  padding: 10px 15px;
+  margin: 5px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#categories button:hover {
+  background-color: #555;
+}
+
+/* Thumbnails */
+main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  justify-content: center;
+  margin: 20px;
+}
+
+.thumbnail {
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.thumbnail img {
+  width: 100%;
+}
+
+.thumbnail p {
+  margin: 5px;
+  font-size: 14px;
+}
+
+.thumbnail button {
+  padding: 5px 10px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.thumbnail button:hover {
   background-color: #555;
 }

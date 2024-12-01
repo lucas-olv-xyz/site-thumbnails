@@ -3,28 +3,46 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Thumbnail Organizer</title>
+    <title>Organizador de Thumbnails</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header>
-      <h1>Organizador de Thumbnails</h1>
-      <input type="text" id="search" placeholder="Buscar por tags..." />
-      <form id="upload-form">
-        <input type="file" id="thumbnail-upload" accept="image/*" />
-        <input
-          type="text"
-          id="thumbnail-tags"
-          placeholder="Adicione tags separadas por vírgulas"
-        />
-        <button type="submit">Upload</button>
-      </form>
-    </header>
+    <!-- Página de Login -->
+    <div id="login-page">
+      <h2>Login</h2>
+      <input type="text" id="username" placeholder="Usuário" />
+      <input type="password" id="password" placeholder="Senha" />
+      <button id="login-btn">Entrar</button>
+    </div>
 
-    <main id="thumbnail-container">
-      <!-- As thumbnails serão inseridas aqui via JavaScript -->
-    </main>
+    <!-- Conteúdo do Site -->
+    <div id="site-content" style="display: none;">
+      <header>
+        <h1>Organizador de Thumbnails</h1>
+        <input type="text" id="search" placeholder="Buscar por tags..." />
+        <form id="upload-form">
+          <input type="file" id="thumbnail-upload" accept="image/*" multiple />
+          <input
+            type="text"
+            id="thumbnail-tags"
+            placeholder="Adicione tags separadas por vírgulas"
+          />
+          <button type="submit">Upload</button>
+        </form>
+      </header>
 
+      <div id="categories">
+        <button onclick="displayThumbnails('javascript')">JavaScript</button>
+        <button onclick="displayThumbnails('html')">HTML</button>
+        <button onclick="displayThumbnails('design')">Design</button>
+      </div>
+
+      <main id="thumbnail-container">
+        <!-- Thumbnails aparecem aqui -->
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
     <script src="script.js"></script>
   </body>
 </html>

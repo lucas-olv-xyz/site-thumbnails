@@ -1,35 +1,37 @@
-// Recuperar thumbnails do Local Storage
-const savedThumbnails = JSON.parse(localStorage.getItem("thumbnails")) || [];
-
-// Mesclar thumbnails padrão e as carregadas
-let thumbnails = [
-  ...savedThumbnails,
-  { src: "thumbnails/thumb1.jpg", tags: ["tutorial", "javascript"] },
-  { src: "thumbnails/thumb2.jpg", tags: ["html", "css"] },
-  { src: "thumbnails/thumb3.jpg", tags: ["programação", "design"] },
+// Usuários para login
+const USERS = [
+  { username: "admin", password: "1234" },
+  { username: "copywriter", password: "5678" },
 ];
 
-// Atualizar Local Storage com os thumbnails
+// Thumbnails padrão e do Local Storage
+const savedThumbnails = JSON.parse(localStorage.getItem("thumbnails")) || [];
+let thumbnails = [...savedThumbnails];
+
+// Salvar thumbnails no Local Storage
 function saveThumbnails() {
   localStorage.setItem("thumbnails", JSON.stringify(thumbnails));
 }
 
-// Função para exibir as thumbnails
+// Função para exibir thumbnails
 function displayThumbnails(filter = "") {
   const container = document.getElementById("thumbnail-container");
-  container.innerHTML = ""; // Limpar o container
+  container.innerHTML = "";
 
   thumbnails
     .filter((thumb) =>
       thumb.tags.some((tag) => tag.includes(filter.toLowerCase()))
     )
-    .forEach((thumb) => {
+    .forEach((thumb, index) => {
       const thumbnailElement = document.createElement("div");
       thumbnailElement.classList.add("thumbnail");
       thumbnailElement.innerHTML = `
-        <img src="${thumb.src}" alt="Thumbnail">
-        <p>Tags: ${thumb.tags.join(", ")}</p>
-      `;
+          <img src="${thumb.src}" alt="Thumbnail">
+          <p>Tags: ${thumb.tags.join(", ")}</p>
+          <button onclick="downloadImage('${thumb.src}', 'thumbnail-${
+        index + 1
+      }.jpg')">Download</button>
+        `;
       container.appendChild(thumbnailElement);
     });
 
@@ -38,42 +40,68 @@ function displayThumbnails(filter = "") {
   }
 }
 
-// Adicionar evento ao campo de busca
-document.getElementById("search").addEventListener("input", (e) => {
-  displayThumbnails(e.target.value);
-});
+// Função para baixar imagens
+function downloadImage(url, filename) {
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
 
-// Adicionar evento ao formulário de upload
+// Função para upload de múltiplas thumbnails
 document.getElementById("upload-form").addEventListener("submit", (e) => {
   e.preventDefault();
 
-  // Obter o arquivo e as tags
-  const fileInput = document.getElementById("thumbnail-upload");
+  const files = document.getElementById("thumbnail-upload").files;
   const tagsInput = document.getElementById("thumbnail-tags");
-  const file = fileInput.files[0];
   const tags = tagsInput.value
     .split(",")
     .map((tag) => tag.trim().toLowerCase());
 
-  if (!file || tags.length === 0) {
-    alert("Por favor, selecione uma imagem e adicione ao menos uma tag.");
+  if (files.length === 0 || tags.length === 0) {
+    alert("Selecione ao menos uma imagem e adicione tags.");
     return;
   }
 
-  // Criar URL temporária para o arquivo (usada como `src`)
-  const reader = new FileReader();
-  reader.onload = () => {
-    const newThumbnail = { src: reader.result, tags };
-    thumbnails.push(newThumbnail);
-    saveThumbnails(); // Salvar no Local Storage
-    displayThumbnails(); // Atualizar interface
+  Array.from(files).forEach((file) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const newThumbnail = { src: reader.result, tags };
+      thumbnails.push(newThumbnail);
+      saveThumbnails();
+      displayThumbnails();
+    };
+    reader.readAsDataURL(file);
+  });
 
-    // Limpar inputs
-    fileInput.value = "";
-    tagsInput.value = "";
-  };
-  reader.readAsDataURL(file);
+  document.getElementById("thumbnail-upload").value = "";
+  tagsInput.value = "";
 });
 
-// Exibir todas as thumbnails ao carregar a página
+// Login
+document.getElementById("login-btn").addEventListener("click", () => {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  const user = USERS.find(
+    (u) => u.username === username && u.password === password
+  );
+  if (user) {
+    localStorage.setItem("loggedIn", "true");
+    document.getElementById("login-page").style.display = "none";
+    document.getElementById("site-content").style.display = "block";
+  } else {
+    alert("Usuário ou senha inválidos.");
+  }
+});
+
+// Verificar login
+if (localStorage.getItem("loggedIn") === "true") {
+  document.getElementById("login-page").style.display = "none";
+  document.getElementById("site-content").style.display = "block";
+}
+
+// Exibir thumbnails ao carregar
 displayThumbnails();
