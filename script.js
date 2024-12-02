@@ -6,7 +6,20 @@ const USERS = [
 
 // Thumbnails padrão e do Local Storage
 const savedThumbnails = JSON.parse(localStorage.getItem("thumbnails")) || [];
-let thumbnails = [...savedThumbnails];
+let thumbnails = [
+  ...savedThumbnails,
+  { src: "thumbnails/thumb1.jpg", tags: ["rich vs poor", "funny"], ctr: 5.2 },
+  { src: "thumbnails/thumb2.jpg", tags: ["weddings", "romantic"], ctr: 7.4 },
+  { src: "thumbnails/thumb3.jpg", tags: ["Mario", "gaming"], ctr: 8.1 },
+];
+
+// Example YouTube data for titles
+const youtubeData = [
+  { title: "Rich vs Poor: Epic Battle!", ctr: 6.8 },
+  { title: "Wedding Disaster 101", ctr: 7.5 },
+  { title: "Mario’s Crazy Adventure", ctr: 9.1 },
+  { title: "Rich People Problems", ctr: 5.9 },
+];
 
 // Salvar thumbnails no Local Storage
 function saveThumbnails() {
@@ -14,29 +27,72 @@ function saveThumbnails() {
 }
 
 // Função para exibir thumbnails
-function displayThumbnails(filter = "") {
+function displayThumbnails(filteredThumbnails = thumbnails) {
   const container = document.getElementById("thumbnail-container");
   container.innerHTML = "";
 
-  thumbnails
-    .filter((thumb) =>
-      thumb.tags.some((tag) => tag.includes(filter.toLowerCase()))
-    )
-    .forEach((thumb, index) => {
-      const thumbnailElement = document.createElement("div");
-      thumbnailElement.classList.add("thumbnail");
-      thumbnailElement.innerHTML = `
-          <img src="${thumb.src}" alt="Thumbnail">
-          <p>Tags: ${thumb.tags.join(", ")}</p>
-          <button onclick="downloadImage('${thumb.src}', 'thumbnail-${
-        index + 1
-      }.jpg')">Download</button>
-        `;
-      container.appendChild(thumbnailElement);
-    });
+  filteredThumbnails.forEach((thumb, index) => {
+    const thumbnailElement = document.createElement("div");
+    thumbnailElement.classList.add("thumbnail");
+    thumbnailElement.innerHTML = `
+            <img src="${thumb.src}" alt="Thumbnail">
+            <p>Tags: ${thumb.tags.join(", ")}</p>
+            <p>CTR: ${thumb.ctr}%</p>
+            <button onclick="downloadImage('${thumb.src}', 'thumbnail-${
+      index + 1
+    }.jpg')">Download</button>
+          `;
+    container.appendChild(thumbnailElement);
+  });
 
   if (container.innerHTML === "") {
     container.innerHTML = "<p>Nenhuma thumbnail encontrada.</p>";
+  }
+}
+
+// Filtrar thumbnails por tag
+function filterByTag(tag) {
+  const filteredThumbnails = thumbnails.filter((thumb) =>
+    thumb.tags.includes(tag)
+  );
+  displayThumbnails(filteredThumbnails);
+
+  // Exibir os Top 3 Titles para a tag selecionada
+  displayTopTitles(tag);
+}
+
+// Exibir as tags únicas disponíveis
+function displayTags() {
+  const tagsContainer = document.getElementById("tags-container");
+  const uniqueTags = [...new Set(thumbnails.flatMap((thumb) => thumb.tags))];
+
+  tagsContainer.innerHTML = "";
+  uniqueTags.forEach((tag) => {
+    const button = document.createElement("button");
+    button.textContent = tag;
+    button.addEventListener("click", () => filterByTag(tag));
+    tagsContainer.appendChild(button);
+  });
+}
+
+// Exibir os Top 3 Titles para uma tag
+function displayTopTitles(tag) {
+  const relevantTitles = youtubeData
+    .filter((data) => data.title.toLowerCase().includes(tag.toLowerCase()))
+    .sort((a, b) => b.ctr - a.ctr)
+    .slice(0, 3);
+
+  const titleList = document.getElementById("title-list");
+  titleList.innerHTML = "";
+
+  if (relevantTitles.length > 0) {
+    relevantTitles.forEach((data) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = `${data.title} (CTR: ${data.ctr}%)`;
+      titleList.appendChild(listItem);
+    });
+  } else {
+    titleList.innerHTML = "<li>No titles available for this tag.</li>";
   }
 }
 
@@ -72,6 +128,7 @@ document.getElementById("upload-form").addEventListener("submit", (e) => {
       thumbnails.push(newThumbnail);
       saveThumbnails();
       displayThumbnails();
+      displayTags(); // Atualizar tags
     };
     reader.readAsDataURL(file);
   });
@@ -103,5 +160,6 @@ if (localStorage.getItem("loggedIn") === "true") {
   document.getElementById("site-content").style.display = "block";
 }
 
-// Exibir thumbnails ao carregar
+// Exibir thumbnails e tags ao carregar
 displayThumbnails();
+displayTags();

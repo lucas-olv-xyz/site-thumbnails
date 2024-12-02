@@ -5,6 +5,7 @@ body {
   padding: 0;
   text-align: center;
   background-color: #f4f4f4;
+  color: #333;
 }
 
 /* Página de Login */
@@ -40,6 +41,11 @@ header {
   padding: 20px;
 }
 
+header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
 header input[type="text"] {
   width: 80%;
   padding: 10px;
@@ -62,7 +68,7 @@ header input[type="text"] {
 
 #upload-form button {
   padding: 10px 15px;
-  background-color: #333;
+  background-color: #444;
   color: white;
   border: none;
   border-radius: 5px;
@@ -70,7 +76,7 @@ header input[type="text"] {
 }
 
 #upload-form button:hover {
-  background-color: #555;
+  background-color: #666;
 }
 
 /* Categorias */
@@ -87,47 +93,120 @@ header input[type="text"] {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 #categories button:hover {
   background-color: #555;
+  transform: scale(1.05);
 }
 
 /* Thumbnails */
 main {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 10px;
+  gap: 15px;
   justify-content: center;
-  margin: 20px;
+  margin: 20px auto;
+  max-width: 1200px;
 }
 
 .thumbnail {
   width: 200px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.thumbnail:hover {
+  transform: scale(1.05);
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .thumbnail img {
   width: 100%;
+  border-bottom: 1px solid #ccc;
 }
 
 .thumbnail p {
   margin: 5px;
   font-size: 14px;
+  color: #555;
 }
 
 .thumbnail button {
-  padding: 5px 10px;
-  background-color: #333;
+  padding: 8px 12px;
+  background-color: #444;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 10px;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .thumbnail button:hover {
-  background-color: #555;
+  background-color: #666;
+  transform: scale(1.1);
+}
+
+/* Tags Container */
+#tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+#tags-container button {
+  padding: 10px 15px;
+  margin: 5px;
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+#tags-container button:hover {
+  background-color: #666;
+  transform: scale(1.1);
+}
+
+/* Títulos Principais */
+#top-titles {
+  margin: 20px auto;
+  max-width: 800px;
+  text-align: left;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#top-titles h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+#top-titles ul {
+  list-style: none;
+  padding: 0;
+}
+
+#top-titles li {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+#top-titles li::before {
+  content: "•";
+  color: #666;
+  margin-right: 8px;
 }
