@@ -105,6 +105,43 @@ function downloadImage(url, filename) {
   a.click();
   document.body.removeChild(a);
 }
+// Função para excluir uma thumbnail
+function deleteThumbnail(index) {
+  const confirmDelete = confirm(
+    "Você tem certeza que quer excluir esta thumbnail?"
+  );
+  if (confirmDelete) {
+    thumbnails.splice(index, 1); // Remove a thumbnail da lista
+    saveThumbnails(); // Atualiza o Local Storage
+    displayThumbnails(); // Atualiza a exibição das thumbnails
+    displayTags(); // Atualiza as tags disponíveis
+  }
+}
+function displayThumbnails(filteredThumbnails = thumbnails) {
+  const container = document.getElementById("thumbnail-container");
+  container.innerHTML = "";
+
+  filteredThumbnails.forEach((thumb, index) => {
+    const thumbnailElement = document.createElement("div");
+    thumbnailElement.classList.add("thumbnail");
+    thumbnailElement.innerHTML = `
+        <div class="thumbnail-actions">
+          <span class="delete-icon" onclick="deleteThumbnail(${index})">&times;</span>
+        </div>
+        <img src="${thumb.src}" alt="Thumbnail">
+        <p>Tags: ${thumb.tags.join(", ")}</p>
+        <p>CTR: ${thumb.ctr}%</p>
+        <button onclick="downloadImage('${thumb.src}', 'thumbnail-${
+      index + 1
+    }.jpg')">Download</button>
+      `;
+    container.appendChild(thumbnailElement);
+  });
+
+  if (container.innerHTML === "") {
+    container.innerHTML = "<p>Nenhuma thumbnail encontrada.</p>";
+  }
+}
 
 // Função para upload de múltiplas thumbnails
 document.getElementById("upload-form").addEventListener("submit", (e) => {

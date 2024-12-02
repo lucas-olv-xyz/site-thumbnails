@@ -210,3 +210,28 @@ main {
   color: #666;
   margin-right: 8px;
 }
+/* Container das ações da thumbnail */
+.thumbnail-actions {
+  position: relative;
+  width: 100%;
+  text-align: right;
+}
+
+.delete-icon {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 18px;
+  color: #ff4c4c;
+  cursor: pointer;
+  background: white;
+  border-radius: 50%;
+  padding: 2px 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.delete-icon:hover {
+  background-color: #ffcccc;
+  transform: scale(1.2);
+}
